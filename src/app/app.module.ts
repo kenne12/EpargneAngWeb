@@ -9,6 +9,8 @@ import { ListClientComponent } from './client/list-client/list-client.component'
 import { AddClientComponent } from './client/add-client/add-client.component';
 import { ListVersementComponent } from './versement/list-versement/list-versement.component';
 import { AddVersementComponent } from './versement/add-versement/add-versement.component';
+import { AddRetraitComponent } from './retrait/add-retrait/add-retrait.component';
+import { ListRetraitComponent } from './retrait/list-retrait/list-retrait.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { AddVersementComponent } from './versement/add-versement/add-versement.c
     ListClientComponent,
     AddClientComponent,
     ListVersementComponent,
-    AddVersementComponent
+    AddVersementComponent,
+    AddRetraitComponent,
+    ListRetraitComponent
   ],
   imports: [
     BrowserModule,
