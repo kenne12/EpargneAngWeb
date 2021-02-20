@@ -7,6 +7,8 @@ import { ListUtilisateurComponent } from './utilisateur/list-utilisateur/list-ut
 import { AddUtilisateurComponent } from './utilisateur/add-utilisateur/add-utilisateur.component';
 import { ListClientComponent } from './client/list-client/list-client.component';
 import { AddClientComponent } from './client/add-client/add-client.component';
+import { ListVersementComponent } from './versement/list-versement/list-versement.component';
+import { AddVersementComponent } from './versement/add-versement/add-versement.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { AddClientComponent } from './client/add-client/add-client.component';
     ListUtilisateurComponent,
     AddUtilisateurComponent,
     ListClientComponent,
-    AddClientComponent
+    AddClientComponent,
+    ListVersementComponent,
+    AddVersementComponent
   ],
   imports: [
     BrowserModule,
