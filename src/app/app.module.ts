@@ -5,12 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ListUtilisateurComponent } from './utilisateur/list-utilisateur/list-utilisateur.component';
 import { AddUtilisateurComponent } from './utilisateur/add-utilisateur/add-utilisateur.component';
+import { ListClientComponent } from './client/list-client/list-client.component';
+import { AddClientComponent } from './client/add-client/add-client.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListUtilisateurComponent,
-    AddUtilisateurComponent
+    AddUtilisateurComponent,
+    ListClientComponent,
+    AddClientComponent
   ],
   imports: [
     BrowserModule,
