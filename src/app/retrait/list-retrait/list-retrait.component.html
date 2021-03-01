@@ -1,1 +1,71 @@
-<p>list-retrait works!</p>
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <ul class="navbar navbar-nav">
+    <li>
+      <button (click)="getAll()" class="btn btn-sm btn-outline-info">All</button>
+    </li>
+
+    <li>
+      <button (click)="onPrepareNew()" class="btn btn-sm btn-outline-info ml-1">New +</button>
+    </li>
+  </ul>
+
+  <ul class="navbar navbar-nav ml-auto">
+    <li>
+      <form #f="ngForm" (ngSubmit)="onSearch(f.value)" class="form-inline">
+        <input type="text" class="form-control" ngModel name="keyword">
+        <button class="btn btn-sm btn-outline-info"><span class="fa fa-search"></span></button>
+      </form>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid mt-1">
+
+  <ng-container *ngIf="retraitService.listRetraits$ | async as result" [ngSwitch]="result.dataState">
+    <ng-container *ngSwitchCase="retraitService.DataStateEnum.LOADING">
+      LOADING
+    </ng-container>
+
+    <ng-container *ngSwitchCase="retraitService.DataStateEnum.ERROR">
+      <div class="alert-danger">{{result.errorMessage}}</div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="retraitService.DataStateEnum.LOADED">
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>N°</th>
+          <th>Client</th>
+          <th>Montant</th>
+          <th>Solde</th>
+          <th>Date</th>
+          <th>Heure</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let r of result.data">
+          <td>{{r.client.numeroCarnet}}</td>
+          <td>{{r.client.nom}}</td>
+          <td>{{r.montant | number : "0.0"}}</td>
+          <td>{{r.solde | number : "0.0"}}</td>
+          <td>{{r.date | date : 'dd/MM/yyyy'}}</td>
+          <td>{{r.heure | date : 'HH:mm:ss'}}</td>
+          <td>
+            <button (click)="onPrepareEdit(r)" class="btn btn-sm btn-primary ml-1">
+              <span class="fa fa-pencil">&nbsp;Edit</span>
+            </button>
+
+            <button (click)="onDelete(r)" class="btn btn-sm btn-danger ml-1">
+              <span class="fa fa-trash-o">&nbsp;Del</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </ng-container>
+
+  </ng-container>
+</div>

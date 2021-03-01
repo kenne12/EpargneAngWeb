@@ -1,1 +1,97 @@
-<p>list-client works!</p>
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <ul class="navbar navbar-nav">
+    <li>
+      <button (click)="getAllClient()" class="btn btn-sm btn-outline-info">All</button>
+    </li>
+    <li>
+      <button (click)="getSelectedClient()" class="btn btn-sm btn-outline-info ml-1">Selected</button>
+    </li>
+
+    <li>
+      <button (click)="getUnSelectedClient()" class="btn btn-sm btn-outline-info ml-1">UnSelected</button>
+    </li>
+
+    <li>
+      <button (click)="getClientBySoldeZero()" class="btn btn-sm btn-outline-info ml-1">Solde Zero</button>
+    </li>
+
+    <li>
+      <button (click)="getClientBySoldeGthZero()" class="btn btn-sm btn-outline-info ml-1">Solde +</button>
+    </li>
+
+    <li>
+      <button (click)="onPrepareNewClient()" class="btn btn-sm btn-outline-info ml-1">Imprimer</button>
+    </li>
+
+    <li>
+      <button (click)="onPrepareNewClient()" class="btn btn-sm btn-outline-info ml-1">New +</button>
+    </li>
+  </ul>
+
+  <ul class="navbar navbar-nav ml-auto">
+    <li>
+      <form #f="ngForm" (ngSubmit)="onSearch(f.value)" class="form-inline">
+        <input type="text" class="form-control" ngModel name="keyword">
+        <button class="btn btn-sm btn-outline-info"><span class="fa fa-search"></span></button>
+      </form>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid mt-1">
+
+  <ng-container *ngIf="clientService.listClients$ | async as result" [ngSwitch]="result.dataState">
+    <ng-container *ngSwitchCase="clientService.DataStateEnum.LOADING">
+      LOADING
+    </ng-container>
+
+    <ng-container *ngSwitchCase="clientService.DataStateEnum.ERROR">
+      <div class="alert-danger">{{result.errorMessage}}</div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="clientService.DataStateEnum.LOADED">
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Numéro</th>
+          <th>Nom</th>
+          <th>Prenom</th>
+          <th>CNI</th>
+          <th>Contact</th>
+          <th>Solde</th>
+          <th>Etat</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let c of result.data">
+          <td>{{c.numeroCarnet}}</td>
+          <td>{{c.nom}}</td>
+          <td>{{c.prenom}}</td>
+          <td>{{c.cni}}</td>
+          <td>{{c.contact}}</td>
+          <td>{{c.solde | number : "0.0"}}</td>
+          <td>{{c.etat}}</td>
+          <td>
+            <button (click)="onSelect(c)" class="btn btn-sm" [ngClass]="c.etat?'btn-success' : 'btn-danger'">
+              <span *ngIf="c.etat">UnSelect</span>
+              <span *ngIf="!c.etat">Select</span>
+            </button>
+
+            <button (click)="onPrepareEditClient(c)" class="btn btn-sm btn-primary ml-1">
+              <span class="fa fa-pencil">Edit</span>
+            </button>
+
+            <button (click)="onDeleteClient(c)" class="btn btn-sm btn-danger ml-1">
+                <span class="fa fa-trash-o">Del</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </ng-container>
+
+  </ng-container>
+</div>

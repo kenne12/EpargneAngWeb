@@ -6,10 +6,10 @@
   <ul class="navbar-nav">
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-       Securité
+        Securité
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Utilisateur</a>
+        <a class="dropdown-item" routerLink="/utilisateurs" >Utilisateur</a>
         <a class="dropdown-item" href="#">Privilege</a>
         <a class="dropdown-item" href="#">Activation</a>
         <a class="dropdown-item" href="#">Désactivation</a>
@@ -26,7 +26,7 @@
         <a class="dropdown-item" href="#">Mois</a>
         <a class="dropdown-item" href="#">Année / Mois</a>
         <a class="dropdown-item" href="#">Profession</a>
-        <a class="dropdown-item" href="#">Client</a>
+        <a class="dropdown-item"  routerLink="/clients">Client</a>
       </div>
     </li>
 
@@ -35,8 +35,8 @@
         Traitement
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Versement</a>
-        <a class="dropdown-item" href="#">Retrait</a>
+        <a class="dropdown-item" routerLink="/versements">Versement</a>
+        <a class="dropdown-item" routerLink="/retraits">Retrait</a>
       </div>
     </li>
 
@@ -52,6 +52,10 @@
   </ul>
 </nav>
 
-<div class="container-fluid">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet>
+
+
+
+</router-outlet>
+
+

@@ -1,1 +1,48 @@
-<p>add-versement works!</p>
+<div class="col-md-12 col-md-offset-2" *ngIf="versementService.versementFormGroup">
+  <h1 *ngIf="versementService.choixmenu == 'Create' ">Nouveau Versement</h1>
+  <h1 *ngIf="versementService.choixmenu == 'Edit' ">Modifier un Versement</h1>
+  <form [formGroup]="versementService.versementFormGroup" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="idVersement" id="idVersement">
+
+    <div class="form-group">
+      <label for="client">Client</label>
+      <select class="form-control" formControlName="client" id="client" (change)="updateSolde($event)">
+        <option value="0">-Select-</option>
+        <option [selected]="versementService.client.idclient == item.idclient"
+                *ngFor="let item of versementService.listClients"
+                value="{{item.idclient}}">{{item.numeroCarnet}} {{item.nom}} {{item.prenom}}</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Montant</label>
+        <input type="text" class="form-control" formControlName="montant" id="montant" (change)="updateSolde2($event)">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Solde </label>
+        <input type="text" class="form-control" formControlName="solde" id="solde">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Date</label>
+        <input type="date" class="form-control" formControlName="date" id="date">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Heure</label>
+        <input type="datetime-local" class="form-control" formControlName="heure" id="heure">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-dark"><i class="fa fa-database"></i>&nbsp;Save</button>
+      <button type="button" class="btn btn-outline-dark ml-1" [mat-dialog-close]><i class="fa fa-close">
+      </i> Close
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,1 +1,62 @@
-<p>add-client works!</p>
+<div class="col-md-12 col-md-offset-2" *ngIf="clientService.clientFormGroup">
+  <h1 *ngIf="clientService.choixmenu =='Create'">Nouveau Client</h1>
+  <h1 *ngIf="clientService.choixmenu =='Edit'">Modifier un Client</h1>
+  <form [formGroup]="clientService.clientFormGroup" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="idclient" id="idclient">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Nom </label>
+        <input type="text" class="form-control" formControlName="nom" id="nom">
+      </div>
+      <div class="form-group col-md-6">
+        <label>Prenom</label>
+        <input type="text" class="form-control" formControlName="prenom" id="prenom">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Numéro de compte</label>
+        <input type="text" class="form-control" formControlName="numeroCarnet" id="numeroCarnet">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Contact</label>
+        <input type="text" class="form-control" formControlName="contact" id="contact">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="profession">Profession</label>
+      <select class="form-control" formControlName="profession" id="profession">
+        <option value="--">-Select-</option>
+        <option *ngFor="let item of clientService.listProfession" value="{{item.nom}}">{{item.nom}}</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Solde</label>
+        <input type="text" class="form-control" formControlName="solde" id="solde">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Frais Carnet</label>
+        <input type="text" class="form-control" formControlName="fraisCarnet" id="fraisCarnet">
+      </div>
+    </div>
+
+    <div class="form-check-inline">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" formControlName="etat" id="etat">Etat
+      </label>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-dark"><i class="fa fa-database"></i> Submit</button>
+      <button type="button" class="btn btn-outline-dark ml-1" [mat-dialog-close]><i class="fa fa-close">
+      </i> Close
+      </button>
+    </div>
+  </form>
+</div>

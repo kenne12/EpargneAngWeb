@@ -1,1 +1,66 @@
-<p>add-retrait works!</p>
+<div class="col-md-12 col-md-offset-2" *ngIf="retraitService.retraitFormGroup">
+  <h1 *ngIf="retraitService.choixmenu == 'Create' ">Nouveau Retrait</h1>
+  <h1 *ngIf="retraitService.choixmenu == 'Edit' ">Modifier un Retrait</h1>
+  <form [formGroup]="retraitService.retraitFormGroup" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="idRetrait" id="idRetrait">
+
+    <div class="form-group">
+      <label for="client">Client</label>
+      <select class="form-control" formControlName="client" id="client" (change)="updateSolde($event)">
+        <option value="0">-Select-</option>
+        <option [selected]="item.idclient == retraitService.client.idclient"
+                *ngFor="let item of retraitService.listClients"
+                value="{{item.idclient}}">{{item.numeroCarnet}} {{item.nom}} {{item.prenom}}</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Montant</label>
+        <input type="text" class="form-control" formControlName="montant" id="montant"
+               (change)="updateSolde2($event , '1')">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Commission</label>
+        <input type="text" class="form-control" formControlName="commission" id="commission"
+               (change)="updateSolde2($event , '2')">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Solde </label>
+        <input type="text" class="form-control" formControlName="solde" id="solde">
+      </div>
+
+
+
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Date</label>
+        <input type="date" class="form-control" formControlName="date" id="date">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Heure</label>
+        <input type="datetime-local" class="form-control" formControlName="heure" id="heure">
+      </div>
+    </div>
+
+    <div class="form-check-inline">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" formControlName="commissionAuto" id="commissionAuto">Commission Auto ?
+      </label>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-dark"><i class="fa fa-database"></i>&nbsp;Save</button>
+      <button type="button" class="btn btn-outline-dark ml-1" [mat-dialog-close]><i class="fa fa-close">
+      </i>&nbsp; Close
+      </button>
+    </div>
+  </form>
+</div>
