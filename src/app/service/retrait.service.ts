@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {AppDataState, DataStateEnum} from "../state/app.state";
-import {Versement} from "../model/versement";
 import {Client} from "../model/client";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";

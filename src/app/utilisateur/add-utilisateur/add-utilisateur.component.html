@@ -1,1 +1,42 @@
-<p>add-utilisateur works!</p>
+<div class="col-md-12 col-md-offset-2" *ngIf="utilisateurService.utilisateurFormGroup">
+  <h1 *ngIf="utilisateurService.choixmenu =='Create'">Nouvel Utilisateur</h1>
+  <h1 *ngIf="utilisateurService.choixmenu =='Edit'">Modifier un Utilisateur</h1>
+  <form [formGroup]="utilisateurService.utilisateurFormGroup" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="idUtilisateur" id="idUtilisateur">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Nom </label>
+        <input type="text" class="form-control" formControlName="nom" id="nom">
+      </div>
+      <div class="form-group col-md-6">
+        <label>Prenom</label>
+        <input type="text" class="form-control" formControlName="prenom" id="prenom">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Login</label>
+        <input type="text" class="form-control" formControlName="login" id="login">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Password</label>
+        <input type="text" class="form-control" formControlName="password" id="password">
+      </div>
+    </div>
+
+    <div class="form-check-inline">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" formControlName="actif" id="actif">Etat
+      </label>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-dark"><i class="fa fa-database"></i> Submit</button>
+      <button type="button" class="btn btn-outline-dark ml-1" [mat-dialog-close]><i class="fa fa-close">
+      </i> Close
+      </button>
+    </div>
+  </form>
+</div>

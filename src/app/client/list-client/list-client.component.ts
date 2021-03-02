@@ -16,9 +16,6 @@ import {of} from "rxjs";
 })
 export class ListClientComponent implements OnInit {
 
-  public client: Client = new Client();
-  control: FormControl = new FormControl("");
-
   public constructor(public clientService: ClientService, public router: Router,
                      private matDialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,
                      public dialogRef: MatDialogRef<AddClientComponent>) {
