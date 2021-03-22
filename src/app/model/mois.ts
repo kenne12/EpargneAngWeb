@@ -1,5 +1,5 @@
 export class Mois {
-  idmois?: number;
-  nom?: string;
-  numero?: number;
+  idmois: number = 0;
+  nom: string = "";
+  numero: number = 0;
 }

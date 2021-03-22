@@ -10,7 +10,7 @@ import {ListVersementComponent} from './versement/list-versement/list-versement.
 import {AddVersementComponent} from './versement/add-versement/add-versement.component';
 import {AddRetraitComponent} from './retrait/add-retrait/add-retrait.component';
 import {ListRetraitComponent} from './retrait/list-retrait/list-retrait.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatSliderModule} from "@angular/material/slider";
@@ -23,6 +23,14 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {BasicAuthInterceptor} from "./service/basic-auth.interceptor";
+import {ErrorInterceptor} from "./service/error.interceptor";
+import { ListAnneeComponent } from './annee/list-annee/list-annee.component';
+import { AddAnneeComponent } from './annee/add-annee/add-annee.component';
+import { ListMoisComponent } from './mois/list-mois/list-mois.component';
+import { AddMoisComponent } from './mois/add-mois/add-mois.component';
+
 
 const MATERIAL_MODULES = [MatToolbarModule,
   MatIconModule
@@ -41,7 +49,12 @@ const MATERIAL_MODULES = [MatToolbarModule,
     ListRetraitComponent,
     TemplatComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    DashboardComponent,
+    ListAnneeComponent,
+    AddAnneeComponent,
+    ListMoisComponent,
+    AddMoisComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +71,8 @@ const MATERIAL_MODULES = [MatToolbarModule,
   ],
   exports: MATERIAL_MODULES,
   providers: [DatePipe, {provide: MAT_DIALOG_DATA, useValue: {}},
+    {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: MatDialogRef, useValue: {}}],
   bootstrap: [AppComponent],
   entryComponents: [ListUtilisateurComponent]

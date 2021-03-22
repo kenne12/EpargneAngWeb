@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <ul class="navbar navbar-nav">
+    <li>
+      <button (click)="getAllMois()" class="btn btn-sm btn-outline-info">All</button>
+    </li>
+    <li>
+      <button (click)="getSelectedMois()" class="btn btn-sm btn-outline-info ml-1">Selected</button>
+    </li>
+
+    <li>
+      <button (click)="getUnSelectedClient()" class="btn btn-sm btn-outline-info ml-1">UnSelected</button>
+    </li>
+
+    <li>
+      <button (click)="onPrepareNew()" class="btn btn-sm btn-outline-info ml-1">Imprimer</button>
+    </li>
+
+    <li>
+      <button (click)="onPrepareNew()" class="btn btn-sm btn-outline-info ml-1">New +</button>
+    </li>
+  </ul>
+
+  <ul class="navbar navbar-nav ml-auto">
+    <li>
+      <form #f="ngForm" (ngSubmit)="onSearch(f.value)" class="form-inline">
+        <input type="text" class="form-control" ngModel name="keyword">
+        <button class="btn btn-sm btn-outline-info"><span class="fa fa-search"></span></button>
+      </form>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid mt-1">
+
+  <ng-container *ngIf="moisService.listMois$ | async as result" [ngSwitch]="result.dataState">
+    <ng-container *ngSwitchCase="moisService.DataStateEnum.LOADING">
+      LOADING
+    </ng-container>
+
+    <ng-container *ngSwitchCase="moisService.DataStateEnum.ERROR">
+      <div class="alert-danger">{{result.errorMessage}}</div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="moisService.DataStateEnum.LOADED">
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Annee</th>
+          <th>Mois</th>
+          <th>Date debut</th>
+          <th>Date fin</th>
+          <th>etat</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let c of result.data">
+          <td>{{c.annee.nom}}</td>
+          <td>{{c.mois.nom}}</td>
+          <td>{{c.dateDebut | date : 'yyyy-MM-dd'}}</td>
+          <td>{{c.dateFin | date : 'yyyy-MM-dd' }}</td>
+          <td>{{c.etat}}</td>
+          <td>
+            <button (click)="onSelect(c)" class="btn btn-sm" [ngClass]="c.etat?'btn-success' : 'btn-danger'">
+              <span *ngIf="c.etat">UnSelect</span>
+              <span *ngIf="!c.etat">Select</span>
+            </button>
+
+            <button (click)="onPrepareEdit(c)" class="btn btn-sm btn-primary ml-1">
+              <span class="fa fa-pencil">&nbsp;Edit</span>
+            </button>
+
+            <button (click)="onDelete(c)" class="btn btn-sm btn-danger ml-1">
+              <span class="fa fa-trash-o">&nbsp;Del</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </ng-container>
+  </ng-container>
+</div>

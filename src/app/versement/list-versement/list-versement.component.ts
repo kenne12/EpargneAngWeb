@@ -40,6 +40,7 @@ export class ListVersementComponent implements OnInit {
       }),
       startWith({dataState: DataStateEnum.LOADING}),
       catchError(err => of({dataState: DataStateEnum.ERROR, errorMessage: err.message})));
+
   }
 
   onPrepareNewVersement(): void {

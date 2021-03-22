@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+  <ul class="navbar navbar-nav">
+    <li>
+      <button (click)="getAll()" class="btn btn-sm btn-outline-info">All</button>
+    </li>
+    <li>
+      <button (click)="getSelected()" class="btn btn-sm btn-outline-info ml-1">Selected</button>
+    </li>
+
+    <li>
+      <button (click)="getUnSelected()" class="btn btn-sm btn-outline-info ml-1">UnSelected</button>
+    </li>
+
+    <li>
+      <button (click)="onPrepareNew()" class="btn btn-sm btn-outline-info ml-1">New +</button>
+    </li>
+  </ul>
+
+  <ul class="navbar navbar-nav ml-auto">
+    <li>
+      <form #f="ngForm" (ngSubmit)="onSearch(f.value)" class="form-inline">
+        <input type="text" class="form-control" ngModel name="keyword">
+        <button class="btn btn-sm btn-outline-info"><span class="fa fa-search"></span></button>
+      </form>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid mt-1">
+
+  <ng-container *ngIf="anneeService.listAnnee$ | async as result" [ngSwitch]="result.dataState">
+    <ng-container *ngSwitchCase="anneeService.DataStateEnum.LOADING">
+      LOADING
+    </ng-container>
+
+    <ng-container *ngSwitchCase="anneeService.DataStateEnum.ERROR">
+      <div class="alert-danger">{{result.errorMessage}}</div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="anneeService.DataStateEnum.LOADED">
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Date Début</th>
+          <th>Date Fin</th>
+          <th>Etat</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let a of result.data">
+          <td>{{a.nom}}</td>
+          <td>{{a.dateDebut}}</td>
+          <td>{{a.dateFin}}</td>
+          <td>{{a.etat}}</td>
+          <td>
+
+            <button (click)="onPrepareEdit(a)" class="btn btn-sm btn-primary ml-1">
+              <span class="fa fa-pencil">&nbsp;Edit</span>
+            </button>
+
+            <button (click)="onSelect(a)" class="btn btn-sm ml-1" [ngClass]="a.etat ? 'btn-success' : 'btn-danger'">
+              <span *ngIf="a.etat">UnSelect</span>
+              <span *ngIf="!a.etat">Select</span>
+            </button>
+
+            <button (click)="onDelete(a)" class="btn btn-sm btn-danger ml-1">
+              <span class="fa fa-trash-o">&nbsp;Del</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </ng-container>
+  </ng-container>
+</div>

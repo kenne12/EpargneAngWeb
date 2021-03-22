@@ -1,0 +1,52 @@
+<div class="col-md-12 col-md-offset-2" *ngIf="moisService.moisFormGroup">
+  <h1 *ngIf="moisService.choixmenu == 'Create' ">Nouveau Mois</h1>
+  <h1 *ngIf="moisService.choixmenu == 'Edit' ">Modifier un Mois</h1>
+  <form [formGroup]="moisService.moisFormGroup" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="id" id="id">
+
+    <div class="form-group">
+      <label for="annee">Exercice</label>
+      <select class="form-control" formControlName="annee" id="annee" (change)="updateMois($event)">
+        <option value="0">-Select-</option>
+        <option [selected]="moisService.annee.idannee == item.idannee"
+                *ngFor="let item of moisService.listAnnee"
+                value="{{item.idannee}}">{{item.nom}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="mois">Mois</label>
+      <select class="form-control" formControlName="mois" id="mois" (change)="loadMois($event)">
+        <option value="0">-Select-</option>
+        <option [selected]="moisService.mois_.idmois == item.idmois"
+                *ngFor="let item of moisService.listMois_"
+                value="{{item.idmois}}">{{item.nom}}</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Date Debut</label>
+        <input type="date" class="form-control" formControlName="dateDebut" id="dateDebut">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Date fin</label>
+        <input type="date" class="form-control" formControlName="dateFin" id="dateFin">
+      </div>
+    </div>
+
+    <div class="form-check-inline">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" formControlName="etat" id="etat">Etat
+      </label>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-dark"><i class="fa fa-database"></i>&nbsp;Save</button>
+      <button type="button" class="btn btn-outline-dark ml-1" [mat-dialog-close]><i class="fa fa-close">
+      </i>&nbsp;Close
+      </button>
+    </div>
+  </form>
+</div>

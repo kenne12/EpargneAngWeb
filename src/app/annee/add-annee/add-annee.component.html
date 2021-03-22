@@ -1,0 +1,38 @@
+<div class="col-md-12 col-md-offset-2" *ngIf="anneeService.anneeFormGroup">
+  <h1 *ngIf="anneeService.choixmenu =='Create'">Nouvel Année</h1>
+  <h1 *ngIf="anneeService.choixmenu =='Edit'">Modifier un année</h1>
+  <form [formGroup]="anneeService.anneeFormGroup" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="idannee" id="idannee">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Nom </label>
+        <input type="text" class="form-control" formControlName="nom" id="nom">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label>Date Début</label>
+        <input type="date" class="form-control" formControlName="dateDebut" id="dateDebut">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label>Date Fin</label>
+        <input type="date" class="form-control" formControlName="dateFin" id="dateFin">
+      </div>
+    </div>
+
+    <div class="form-check-inline">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" formControlName="etat" id="etat">Etat
+      </label>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-dark"><i class="fa fa-database"></i> Submit</button>
+      <button type="button" class="btn btn-outline-dark ml-1" [mat-dialog-close]><i class="fa fa-close">
+      </i> Close
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,5 +1,7 @@
 export class Annee {
-  idannee?: number;
-  nom?: string;
-  etat?: boolean;
+  idannee : number = 0;
+  nom: string = "";
+  etat: boolean = true;
+  dateDebut?: any;
+  dateFin?: any;
 }

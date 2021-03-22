@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Client} from "../../model/client";
 import {ClientService} from "../../service/client.service";
-import {FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {AddClientComponent} from "../add-client/add-client.component";
@@ -26,13 +25,11 @@ export class ListClientComponent implements OnInit {
       this.clientService.initForm();
     }
     this.getAllClient();
-
     this.clientService.getAllProfession().subscribe(data => {
       this.clientService.listProfession = data;
     }, error => {
       console.log(error);
     });
-
   }
 
   public getAllClient() {
