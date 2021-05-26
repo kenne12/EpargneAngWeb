@@ -66,7 +66,7 @@ export class AnneeService {
   }
 
   getByEtat(etat: boolean): Observable<Annee[]> {
-    return this.http.get<Annee[]>(this.baseUrl + '/all/search/etat?etat=' + etat);
+    return this.http.get<Annee[]>(this.baseUrl + '/all/search?etat=' + etat);
   }
 
   public transformDate(date: any) {

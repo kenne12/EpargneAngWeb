@@ -7,6 +7,7 @@ import {Versement} from "../model/versement";
 import {HttpClient} from "@angular/common/http";
 import {ClientService} from "./client.service";
 import {DatePipe} from "@angular/common";
+import {AnneeMois} from "../model/anneeMois";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class VersementService {
   public choixmenu: string = "A";
   public listVersement$: Observable<AppDataState<Versement[]>> | null = null;
   public listClients?: Client[];
+  public listMois?: AnneeMois[];
   public versementFormGroup?: FormGroup | null = null;
   public versement: Versement = new Versement();
   public client: Client = new Client();
@@ -82,6 +84,14 @@ export class VersementService {
 
   public transformHeure(date: any) {
     return this.datePipe.transform(date, "yyyy-MM-dd'T'HH:mm:ss");
+  }
+
+  findByIdClientIntervalDate(idClient: any, dateDebut: any, dateFin: any): Observable<Versement[]> {
+    return this.http.get<Versement[]>(this.baseUrl + '/search/client?idClient=' + idClient + '&dateDebut=' + dateDebut + '&dateFin=' + dateFin);
+  }
+
+  findByIntervalDate(dateDebut: any, dateFin: any): Observable<Versement[]> {
+    return this.http.get<Versement[]>(this.baseUrl + '/search/date?dateDebut='+dateDebut+'&dateFin='+dateFin);
   }
 
 }

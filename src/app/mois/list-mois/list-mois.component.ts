@@ -8,6 +8,7 @@ import {of} from "rxjs";
 import {MoisService} from "../../service/mois.service";
 import {AddMoisComponent} from "../add-mois/add-mois.component";
 import {AnneeMois} from "../../model/anneeMois";
+import {AnneeService} from "../../service/annee.service";
 
 @Component({
   selector: 'app-list-mois',
@@ -18,7 +19,8 @@ export class ListMoisComponent implements OnInit {
 
   public constructor(public moisService: MoisService, public router: Router,
                      private matDialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,
-                     public dialogRef: MatDialogRef<AddMoisComponent>) {
+                     public dialogRef: MatDialogRef<AddMoisComponent>,
+                     private anneeService: AnneeService) {
   }
 
   ngOnInit(): void {
@@ -29,7 +31,7 @@ export class ListMoisComponent implements OnInit {
   }
 
   getAllAnnee(): void {
-    this.moisService.getAnneeByEtat(true).subscribe(data => {
+    this.anneeService.getByEtat(true).subscribe(data => {
       this.moisService.listAnnee = data;
     }, error => {
       console.log(error);
@@ -98,23 +100,24 @@ export class ListMoisComponent implements OnInit {
   }
 
   onDelete(a: AnneeMois): void {
-    /*let action = confirm("Etes vous sur de vouloir supprimer ?");
+    let action = confirm("Etes vous sur de vouloir supprimer ?");
     if (action === true) {
-      this.clientService.deleteClient(c.idclient).subscribe(data => {
+      this.moisService.delete(a.id).subscribe(data => {
         alert("Supprimé avec succès");
       });
-    }*/
+    }
   }
 
   onPrepareEdit(a: AnneeMois) {
-    /*this.clientService.client = c;
-    this.clientService.choixmenu = "Edit";
-    this.clientService.clientFormGroup = this.clientService.fb.group(Object.assign({}, c));
+    this.moisService.annee = a.annee;
+    this.moisService.mois_ = a.mois;
+    this.moisService.choixmenu = "Edit";
+    this.moisService.moisFormGroup = this.moisService.fb.group(Object.assign({}, a));
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
     dialogConfig.width = "50%";
-    this.matDialog.open(AddClientComponent, dialogConfig);*/
+    this.matDialog.open(AddMoisComponent, dialogConfig);
   }
 
 }

@@ -12,7 +12,32 @@
   <ul class="navbar navbar-nav ml-auto">
     <li>
       <form #f="ngForm" (ngSubmit)="onSearch(f.value)" class="form-inline">
-        <input type="text" class="form-control" ngModel name="keyword">
+        <label>Mode&nbsp;&nbsp;</label>
+        <select class="form-control" id="mode" name="mode" ngModel (change)="update($event)">
+          <option value="0">-Select-</option>
+          <option value="1">Mois</option>
+          <option value="2">Client</option>
+        </select>
+
+        <label *ngIf="showClient">&nbsp;&nbsp;Client&nbsp;&nbsp;</label>
+        <select *ngIf="showClient" class="form-control" name="client" ngModel>
+          <option value="0">-Select-</option>
+          <option *ngFor="let c of versementService.listClients"
+                  value="{{c.idclient}}">{{c.numeroCarnet}} {{c.nom}} {{c.prenom}}</option>
+        </select>
+
+        <label *ngIf="showMois">&nbsp;&nbsp;Mois&nbsp;&nbsp;</label>
+        <select *ngIf="showMois" class="form-control" name="mois" ngModel>
+          <option value="0">-Select-</option>
+          <option *ngFor="let m of versementService.listMois" value="{{m.id}}">{{m.mois.nom}} {{m.annee.nom}}</option>
+        </select>
+
+        <label *ngIf="showDateDebut">&nbsp;&nbsp;Date début &nbsp;&nbsp;</label>
+        <input *ngIf="showDateDebut" type="date" class="form-control" name="dateDebut" ngModel>
+
+        <label *ngIf="showDateFin">&nbsp;&nbsp;Date fin &nbsp;&nbsp;</label>
+        <input *ngIf="showDateFin" type="date" class="form-control" name="dateFin" ngModel>
+
         <button class="btn btn-sm btn-outline-info"><span class="fa fa-search"></span></button>
       </form>
     </li>
@@ -32,39 +57,49 @@
 
     <ng-container *ngSwitchCase="versementService.DataStateEnum.LOADED">
 
-      <table class="table table-bordered">
-        <thead>
-        <tr>
-          <th>N°</th>
-          <th>Client</th>
-          <th>Montant</th>
-          <th>Solde</th>
-          <th>Date</th>
-          <th>Heure</th>
-          <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let v of result.data">
-          <td>{{v.client.numeroCarnet}}</td>
-          <td>{{v.client.nom}}</td>
-          <td>{{v.montant | number : "0.0"}}</td>
-          <td>{{v.solde | number : "0.0"}}</td>
-          <td>{{v.date | date : 'dd/MM/yyyy'}}</td>
-          <td>{{v.heure | date : 'HH:mm:ss'}}</td>
-          <td>
-            <button (click)="onPrepareEditVersement(v)" class="btn btn-sm btn-primary ml-1">
-              <span class="fa fa-pencil">&nbsp;Edit</span>
-            </button>
+      <div class="card">
 
-            <button (click)="onDeleteVersement(v)" class="btn btn-sm btn-danger ml-1">
-              <span class="fa fa-trash-o">&nbsp;Del</span>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+        <div class="card-header bg-info">
+          Liste des clients
+        </div>
 
+        <div class="card-body">
+
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>N°</th>
+              <th>Client</th>
+              <th>Montant</th>
+              <th>Solde</th>
+              <th>Date</th>
+              <th>Heure</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let v of result.data">
+              <td>{{v.client.numeroCarnet}}</td>
+              <td>{{v.client.nom}}</td>
+              <td>{{v.montant | number : "0.0"}}</td>
+              <td>{{v.solde | number : "0.0"}}</td>
+              <td>{{v.date | date : 'dd/MM/yyyy'}}</td>
+              <td>{{v.heure | date : 'HH:mm:ss'}}</td>
+              <td>
+                <button (click)="onPrepareEditVersement(v)" class="btn btn-sm btn-primary ml-1">
+                  <span class="fa fa-pencil">&nbsp;Edit</span>
+                </button>
+
+                <button (click)="onDeleteVersement(v)" class="btn btn-sm btn-danger ml-1">
+                  <span class="fa fa-trash-o">&nbsp;Del</span>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
     </ng-container>
 
   </ng-container>

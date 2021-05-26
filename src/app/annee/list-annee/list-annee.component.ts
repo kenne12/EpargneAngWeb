@@ -4,7 +4,6 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angula
 import {catchError, map, startWith} from "rxjs/operators";
 import {DataStateEnum} from "../../state/app.state";
 import {of} from "rxjs";
-import {AddUtilisateurComponent} from "../../utilisateur/add-utilisateur/add-utilisateur.component";
 import {Client} from "../../model/client";
 import {AnneeService} from "../../service/annee.service";
 import {Annee} from "../../model/annee";

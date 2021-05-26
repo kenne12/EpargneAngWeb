@@ -14,7 +14,8 @@ import {Mois} from "../model/mois";
 export class MoisService {
 
   public baseUrl = 'http://localhost:8085/api/anneemois';
-  public baseUrl_annee = 'http://localhost:8085/api/annee';
+  public baseUrl_ = 'http://localhost:8085/api/mois';
+
   public choixmenu: string = "A";
   public listMois$: Observable<AppDataState<AnneeMois[]>> | null = null;
   public moisFormGroup: FormGroup | null = null;
@@ -54,7 +55,6 @@ export class MoisService {
     this.mois.dateFin = this.transformDate(new Date());
   }
 
-
   getById(id: number): Observable<AnneeMois> {
     return this.http.get<AnneeMois>(this.baseUrl + '/' + id);
   }
@@ -79,15 +79,15 @@ export class MoisService {
     return this.http.get<AnneeMois[]>(this.baseUrl + '/all/search/etat?etat=' + etat);
   }
 
-  getAnneeByEtat(etat: boolean): Observable<Annee[]> {
-    return this.http.get<Annee[]>(this.baseUrl_annee + '/all/search?etat=' + etat);
-  }
-
   public transformDate(date: any) {
     return this.datePipe.transform(date, 'yyyy-MM-dd');
   }
 
   getRestMoisByIdAnnee(idAnnee: number): Observable<Mois[]> {
     return this.http.get<Mois[]>(this.baseUrl + '/mois/' + idAnnee);
+  }
+
+  getMoisById(idMois: number): Observable<Mois> {
+    return this.http.get<Mois>(this.baseUrl_ + '/' + idMois);
   }
 }

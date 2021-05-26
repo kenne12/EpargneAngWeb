@@ -6,6 +6,8 @@ import {VersementService} from "../../service/versement.service";
 import {Versement} from "../../model/versement";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {AddVersementComponent} from "../add-versement/add-versement.component";
+import {MoisService} from "../../service/mois.service";
+import {AnneeMois} from "../../model/anneeMois";
 
 @Component({
   selector: 'app-list-versement',
@@ -14,7 +16,13 @@ import {AddVersementComponent} from "../add-versement/add-versement.component";
 })
 export class ListVersementComponent implements OnInit {
 
-  constructor(public versementService: VersementService, public matDialog: MatDialog) {
+  showMois: boolean = false;
+  showClient: boolean = false;
+  showDateDebut: boolean = false;
+  showDateFin: boolean = false;
+  mois: AnneeMois = new AnneeMois();
+
+  constructor(public versementService: VersementService, public moisService: MoisService, public matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -23,6 +31,8 @@ export class ListVersementComponent implements OnInit {
       this.versementService.initForm(this.versementService.versement);
     }
     this.getAllVersement();
+    this.getClients();
+    this.getAllActiveMois();
   }
 
   private getClients(): void {
@@ -33,6 +43,12 @@ export class ListVersementComponent implements OnInit {
     });
   }
 
+  public getAllActiveMois() {
+    this.moisService.getByEtat(true).subscribe(data => {
+      this.versementService.listMois = data;
+    })
+  }
+
   public getAllVersement() {
     this.versementService.listVersement$ = this.versementService.getAll().pipe(
       map(datas => {
@@ -40,7 +56,6 @@ export class ListVersementComponent implements OnInit {
       }),
       startWith({dataState: DataStateEnum.LOADING}),
       catchError(err => of({dataState: DataStateEnum.ERROR, errorMessage: err.message})));
-
   }
 
   onPrepareNewVersement(): void {
@@ -82,6 +97,62 @@ export class ListVersementComponent implements OnInit {
   }
 
   onSearch(value: any) {
+    if (value.mode == 1) {
 
+      console.log(value);
+
+      this.moisService.getById(value.mois).subscribe(data => {
+        this.mois = data;
+      }, error => {
+        console.log(error);
+      });
+
+
+      //let val: string = this.mois.dateDebut;
+      //val = val.substr(0, 10);
+
+      let dateDebut = this.versementService.transformDate(this.mois.dateDebut);
+      let dateFin = this.versementService.transformDate(this.mois.dateFin);
+
+      console.log(dateDebut);
+      console.log(dateFin);
+
+
+      this.versementService.listVersement$ = this.versementService.findByIntervalDate(dateDebut, dateFin).pipe(
+        map(datas => {
+          return ({dataState: DataStateEnum.LOADED, data: datas});
+        }),
+        startWith({dataState: DataStateEnum.LOADING}),
+        catchError(err => of({dataState: DataStateEnum.ERROR, errorMessage: err.message})));
+    } else if (value.mode == 2) {
+
+      value.dateDebut = this.versementService.transformDate(value.dateDebut);
+      value.dateFin = this.versementService.transformDate(value.dateFin);
+
+      this.versementService.listVersement$ = this.versementService.findByIdClientIntervalDate(value.client, value.dateDebut, value.dateFin).pipe(
+        map(datas => {
+          return ({dataState: DataStateEnum.LOADED, data: datas});
+        }),
+        startWith({dataState: DataStateEnum.LOADING}),
+        catchError(err => of({dataState: DataStateEnum.ERROR, errorMessage: err.message})));
+    }
   }
+
+  update($event: any) {
+    this.showDateFin = false;
+    this.showDateDebut = false;
+    this.showClient = false;
+    this.showMois = false;
+    let value = $event.target.value;
+
+    if (value == 1) {
+      this.showMois = true;
+    } else if (value == 2) {
+      this.showClient = true;
+      this.showDateDebut = true;
+      this.showDateFin = true;
+    }
+  }
+
+
 }

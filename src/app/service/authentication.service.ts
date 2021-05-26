@@ -13,6 +13,7 @@ export class AuthenticationService {
   public jwtToken: any | null = null;
   public jwt: any;
   public roles: Array<any> = [];
+  public isAuthentified = false;
 
 
   public currentUserSubject: BehaviorSubject<any>;
@@ -25,6 +26,10 @@ export class AuthenticationService {
     return this.http.post(environment.BASE_API_URL + 'login', user, {observe: 'response'});
   }
 
+  goToLogin(): void {
+    this.router.navigateByUrl("/login");
+  }
+
   register(user: any) {
     return this.http.post(environment.BASE_API_URL + 'api/utilisateur/register', user, {observe: 'response'});
   }
@@ -35,6 +40,7 @@ export class AuthenticationService {
     this.jwt = jwt_decode(this.jwtToken);
     this.roles = this.jwt.roles;
     this.currentUserSubject.next(this.jwt.sub);
+    this.isAuthentified = true;
   }
 
   getCurrentUser() {
